@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 plt.scatter([x/10.0 for x in range(0,10)], [x*x/100 for x in range(0,10)], c="g", alpha=0.5, marker='o')
 plt.show()
 
+
 exit()
 
 # Create the model
