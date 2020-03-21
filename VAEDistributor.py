@@ -39,7 +39,7 @@ class VAEGenerator:
         eInputX = tf.keras.Input(shape=(self.sample_size,), name=self.name+'_encoder_input_samples')
         mergeInput = tf.keras.layers.concatenate([eInputP, eInputX])
         hLayer = mergeInput
-        for i in range(self.L):
+        for _ in range(self.L):
             hLayer = tf.keras.layers.Dense(2*(self.parameter_size+self.sample_size), activation=tf.nn.relu) (hLayer)
 
         eZMean = tf.keras.layers.Dense(self.sample_size, name='z_mean')(hLayer)
@@ -104,7 +104,7 @@ class VAEGenerator:
 
     def generateSamples(self, P, N):
         input = []
-        for i in range(N):
-            input.append(P + [self.rnd.gauss(0, 1) for j in range(self.sample_size)])
+        for _ in range(N):
+            input.append(P + [self.rnd.gauss(0, 1) for _ in range(self.sample_size)])
         input = np.array(input)
         return self.decoderKernel.predict(input)
