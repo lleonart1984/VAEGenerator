@@ -5,13 +5,6 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 
-
-plt.scatter([x/10.0 for x in range(0,10)], [x*x/100 for x in range(0,10)], c="g", alpha=0.5, marker='o')
-plt.show()
-
-
-exit()
-
 # Create the model
 # We will test generating two variables X,Y 
 # where X is a uniform distribution and 
@@ -31,12 +24,12 @@ def getNewParameter(rnd : random.Random):
 def getNewSample(rnd : random.Random, P):
     o, p, q = P # unroll parameters
     X = rnd.uniform(0, 1)
-    Y = rnd.gauss(math.sin(X*o + p), q)
+    Y = rnd.gauss(math.sin(X*o + p)*0.2+0.5, q)
     return [X, Y]
 
 # generating samples
 print("generating samples")
-N = 10000
+N = 1000000
 Ps = []
 Xs = []
 for i in range(N):
@@ -50,14 +43,19 @@ print("training model")
 vae.trainLoop(Ps, Xs)
 vae.saveModel()
 
-# testing model
-P = getNewParameter(rnd)
-Xs = [] # real samples
-for i in range(300): 
-    Xs.append(getNewSample(rnd, P))
-Xs = np.array(Xs)
+while True:
+    # testing model
+    P = getNewParameter(rnd)
+    P[2] = 0.02
+    Xs = [] # real samples
+    for i in range(300): 
+        Xs.append(getNewSample(rnd, P))
+    Xs = np.array(Xs)
 
-gXs = vae.generateSamples(P, 300)
+    gXs = vae.generateSamples(P, 300)
 
 
+    plt.scatter(Xs[:,0], Xs[:,1], c="g", alpha=0.5, marker='o')
+    plt.scatter(gXs[:,0], gXs[:,1], c="r", alpha=0.5, marker='^')
+    plt.show()
 

@@ -1,0 +1,2 @@
+model_checkpoint_path: "sinusGaussian_VAEGenerator.tf"
+all_model_checkpoint_paths: "sinusGaussian_VAEGenerator.tf"
